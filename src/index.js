@@ -1,6 +1,10 @@
 "use strict";
 import './style.css';
 import './task.svg';
+import {title, description, todoModalBackground, addTask, closeTodo, projectModalBackground, addProjectBtn,
+    closeProjectModal} from './dom.js';
+
+
 
 function Todo(title, description, dueDate, priority) {
     this.title = title;
@@ -9,35 +13,23 @@ function Todo(title, description, dueDate, priority) {
     this.priority = priority;
 }
 
-const title = document.querySelector('#title');
-const description = document.querySelector('#description');
-
 const todoList = [];
 
-// "add task" button
-const todoModalBackground = document.querySelector('.new-todo-background');
-const addTask = document.querySelector('.add-task');
-addTask.addEventListener('click', () => {
-        todoModalBackground.style.display = 'block';    
-});
+function Project(title) {
+    this.title = title;
+}
 
-// close button of new todo
-const closeTodo = document.querySelector('.new-todo-close');
+const projectList = [];
 
-closeTodo.addEventListener('click', () => {
-    todoModalBackground.style.display = 'none';
-});
+function createProject() {
+    const title = new Project(newProjectTitle.value);  
+    projectList.push(title);
+}
 
-// "add project" button
-const projectModalBackground = document.querySelector('.new-project-background')
-const addProject = document.querySelector('.add-project');
-addProject.addEventListener('click', () => {
-    projectModalBackground.style.display = 'block';
-});
 
-// close button of "add project"
-const closeProject = document.querySelector('.new-project-close');
+export { projectList, createProject }
 
-closeProject.addEventListener('click', () => {
-    projectModalBackground.style.display = 'none';
-})
+
+
+
+
