@@ -1,0 +1,402 @@
+@font-face {
+    font-family: latoRegular;
+    src: url(./Lato-Regular.ttf);
+}
+
+@font-face {
+    font-family: latoBlack;
+    src: url(./Lato-Black.ttf);
+}
+
+@font-face {
+    font-family: latoLight;
+    src: url(./Lato-Light.ttf);
+}
+
+@font-face {
+    font-family: latoThin;
+    src: url(./Lato-Thin.ttf);
+}
+
+@font-face {
+    font-family: latoBold;
+    src: url(./Lato-Bold.ttf);
+}
+
+:root {
+    --main-color: #C89FA3;
+    --secondary-color: #3ba395;
+    --font-color: #501f3a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 2fr 7fr;
+    grid-template-rows: 2fr 15fr 1fr;
+    min-height: 100vh;
+}
+
+header {
+    padding: 10px 20px;
+    color: white;
+    background-color: var(--main-color);
+    font-family: latoBlack;
+    font-size: 22px;
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 5px;
+
+}
+
+.task-icon {
+    width: 38px;
+    filter: invert(100%) sepia(99%) saturate(0%) hue-rotate(162deg) brightness(106%) contrast(101%);
+}
+
+.sidebar {
+    color: var(--font-color);
+    border-right: solid 1px var(--font-color);
+    font-family: latoThin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-top: 30px;
+    font-size: 18px;
+}
+
+.tasks-by-date {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#home, #today, #week {
+    display: none;
+}
+
+#home + label {
+    color: var(--font-color);
+    font-size: 30px;
+    font-family: latoLight;
+    cursor: pointer;
+}
+
+#home:hover + label {
+    font-family: latoRegular;
+    padding-left: 5px;
+}
+
+#home:checked + label {
+    font-family: latoRegular;
+    padding-left: 5px;
+}
+
+#today + label {
+    color: var(--font-color);
+    font-size: 30px;
+    font-family: latoLight;
+    cursor: pointer;
+}
+
+#today:hover + label {
+    font-family: latoRegular;
+    padding-left: 5px;
+}
+
+#today:checked + label {
+    font-family: latoRegular;
+    padding-left: 5px;
+}
+
+#week + label {
+    color: var(--font-color);
+    font-size: 30px;
+    font-family: latoLight;
+    cursor: pointer;
+}
+
+#week:hover + label {
+    font-family: latoRegular;
+    padding-left: 5px;
+}
+
+#week:checked + label {
+    font-family: latoRegular;
+    padding-left: 5px;
+}
+
+/* "new project modal" */
+.new-project-background {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+}
+
+.new-project-modal {
+    background-color: #fefefe;
+    margin: 15vh auto; 
+    width: 600px; 
+    height: 200px;
+}
+
+.new-project-header {
+    font-size: 18px;
+    padding: 10px 15px;
+    font-family: latoRegular;
+    color: white;
+    background-color: var(--main-color);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.new-project-header h1 {
+    margin-top: -5px;
+    cursor: pointer;
+}
+
+.new-project-modal form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#new-project-title {
+    border: none;
+    font-size: 20px;
+    margin-bottom: 50px;
+}
+
+#new-project-title:focus {
+    outline: none;
+}
+
+.create-project {
+    border: solid 1px var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 70px;
+    margin-left: 250px;
+}
+
+.create-project:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+
+
+main {
+    color: var(--font-color);
+    padding: 50px;
+}
+
+.new-todo-background {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+}
+
+.new-todo-modal {
+    background-color: #fefefe;
+    margin: 15vh auto; 
+    width: 700px; 
+    height: 430px;
+  }
+
+.new-todo-header {
+    font-size: 18px;
+    padding: 10px 15px;
+    font-family: latoRegular;
+    color: white;
+    background-color: var(--main-color);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.new-todo-header h1 {
+    margin-top: -5px;
+    cursor: pointer;
+}
+
+.new-todo-modal form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#new-todo-title, #new-todo-details {
+    border: none;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#new-todo-title:focus, #new-todo-details {
+    outline: none;
+}
+
+#new-todo-details {
+    resize: none;
+    font-family: latoRegular;
+}
+
+.new-todo-due-container {
+    font-size: 20px;
+    font-family: latoRegular;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.new-todo-due-container input {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #3ba395;
+    color: #3ba395;
+}
+
+.new-todo-priority-container {
+    display: flex;
+    font-family: latoRegular;
+    font-size: 20px;
+    align-items: center;
+    gap: 10px;
+}
+
+/* bellow is priority styling */
+#new-todo-low, #new-todo-medium, #new-todo-high {
+    display: none;
+}
+
+#new-todo-low + label {
+    font-size: 12px;
+    color: green;
+    border: solid 1px green;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#new-todo-low:hover + label {
+    background-color: green;
+    color: white;
+}
+
+#new-todo-low:checked + label {
+    background-color: green;
+    color: white;
+}
+
+#new-todo-medium + label {
+    font-size: 12px;
+    color: orange;
+    border: solid 1px orange;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#new-todo-medium:hover + label {
+    background-color: orange;
+    color: white;
+}
+
+#new-todo-medium:checked + label {
+    background-color: orange;
+    color: white;
+}
+
+#new-todo-high + label {
+    font-size: 12px;
+    color: red;
+    border: solid 1px red;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#new-todo-high:hover + label {
+    background-color: red;
+    color: white;
+}
+
+#new-todo-high:checked + label {
+    background-color: red;
+    color: white;
+}
+
+.create-todo {
+    border: solid 1px var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.create-todo:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.add-task {
+    color: var(--font-color);
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 3px;
+}
+
+.add-task:hover {
+    background-color: rgb(216, 212, 212);
+}
+
+footer {
+    font-family: latoLight;
+    border: solid 1px var(--font-color);
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-project {
+    border: none;
+    color: var(--font-color);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px 10px;
+    border-radius: 3px;
+}
+
+.add-project:hover {
+    background-color: rgb(216, 212, 212);
+}

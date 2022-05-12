@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>To Do</h1>
+            <img src="./a66af80feca1663bd804.svg" alt="task icon" class="task-icon">
+        </header>
+        <div class="sidebar">
+            <div class="tasks-by-date">
+                <input type="radio" name="sidebar" id="home" checked>
+                <label for="home">Home</label>
+                <input type="radio" name="sidebar" id="today">
+                <label for="today">Today</label>
+                <input type="radio" name="sidebar" id="week">
+                <label for="week">Week</label>
+            </div>
+            <h2>Projects</h2>
+            <button class="add-project">+ Add Project</button>
+            <!-- modal window -->
+            <div class="new-project-background">
+                <div class="new-project-modal">
+                    <div class="new-project-header">
+                        <h2>Create a new project</h2>
+                        <h1 class="new-project-close">x</h1>
+                    </div>
+                    <form action="#">
+                        <input type="text" id="new-project-title" placeholder="Project: House renovation" required>
+                        <button class="create-project">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <main>
+            <button class="add-task">+ Add Task</button>
+            <div class="new-todo-background">
+                <div class="new-todo-modal">
+                    <div class="new-todo-header">
+                        <h2>Create a new To Do</h2>
+                        <h1 class="new-todo-close">x</h1>
+                    </div>
+                    <form action="#">
+                        <input type="text" id="new-todo-title" placeholder="Title: Pay bills" required>
+                        <textarea id="new-todo-details" cols="30" rows="8" placeholder="Details: e.g internet, phone, rent"></textarea>
+                        <div class="new-todo-due-container">
+                            <label for="new-todo-due-date">Due Date:</label>
+                            <input type="date" id="new-todo-due-date" required>
+                        </div>
+                        <div class="new-todo-priority-container">
+                            <p>Priority:</p>
+                            <input type="radio" name="new-todo-priority" id="new-todo-low">
+                            <label for="new-todo-low">LOW</label>
+                            <input type="radio" name="new-todo-priority" id="new-todo-medium" checked>
+                            <label for="new-todo-medium">MEDIUM</label>
+                            <input type="radio" name="new-todo-priority" id="new-todo-high">
+                            <label for="new-todo-high">HIGH</label>
+                            <button class="create-todo">Add</button>     
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>Copyright © 2022 Levan Ilashvili</p>
+        </footer>
+    </div>
+</body>
+</html>
