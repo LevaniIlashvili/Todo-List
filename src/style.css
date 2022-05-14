@@ -201,6 +201,33 @@ header {
     color: white;
 }
 
+.project-list {
+    font-family: latoRegular;
+    color: var(--font-color);
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    gap: 10px;
+}
+
+.project-list input {
+    display: none;
+}
+
+.project-list input:hover + label {
+    font-family: latoBold;
+    cursor: pointer;
+    padding-left: 5px;
+}
+
+.project-list input:checked + label {
+    font-family: latoBold;
+    cursor: pointer;
+    padding-left: 5px;   
+} 
+
+
+
 
 
 main {
@@ -377,6 +404,19 @@ main {
 
 .add-task:hover {
     background-color: rgb(216, 212, 212);
+}
+
+.todo-container {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.todo-title {
+    font-family: latoLight  ;
+    font-size: 20px;
+    margin-left: 10px;
 }
 
 footer {
