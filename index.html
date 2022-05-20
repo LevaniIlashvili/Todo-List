@@ -11,7 +11,7 @@
     <div class="wrapper">
         <header>
             <h1>To Do</h1>
-            <img src="./a66af80feca1663bd804.svg" alt="task icon" class="task-icon">
+            <img src="/src/task.svg" alt="task icon" class="task-icon">
         </header>
         <div class="sidebar">
             <div class="tasks-by-date">
@@ -49,7 +49,7 @@
                         <h2>Create a new To Do</h2>
                         <h1 class="new-todo-close">x</h1>
                     </div>
-                    <form action="#">
+                    <form action="#" class="todo-form" >
                         <input type="text" id="new-todo-title" placeholder="Title: Pay bills" required>
                         <textarea id="new-todo-details" cols="30" rows="8" placeholder="Details: e.g internet, phone, rent"></textarea>
                         <div class="new-todo-due-container">
@@ -64,13 +64,40 @@
                             <label for="new-todo-medium">MEDIUM</label>
                             <input type="radio" name="new-todo-priority" id="new-todo-high">
                             <label for="new-todo-high">HIGH</label>
-                            <button class="create-todo">Add</button>     
+                            <button class="create-todo">Add</button>    
                         </div>
                     </form>
                 </div>
             </div>
             <div class="todo-list">
-                <p class="todo-title">yle</p>
+            </div>
+            <div class="details-modal-background">
+                <div class="details-modal">
+
+                </div>
+            </div>
+            <div class="edit-modal-background">
+                <div class="edit-modal">
+                    <h1 class="close-edit">x</h1>
+                    <form action="#" class="edit-form">
+                        <input type="text" id="edit-todo-title" required>
+                        <textarea id="edit-todo-details" cols="30" rows="8"></textarea>
+                        <div class="edit-todo-due-container">
+                            <label for="edit-todo-due-date">Due Date:</label>
+                            <input type="date" id="edit-todo-due-date" required>
+                        </div>
+                        <div class="edit-todo-priority-container">
+                            <p>Priority:</p>
+                            <input type="radio" name="edit-todo-priority" id="edit-todo-low">
+                            <label for="edit-todo-low">LOW</label>
+                            <input type="radio" name="edit-todo-priority" id="edit-todo-medium">
+                            <label for="edit-todo-medium">MEDIUM</label>
+                            <input type="radio" name="edit-todo-priority" id="edit-todo-high">
+                            <label for="edit-todo-high">HIGH</label>
+                            <button class="edit-todo">Confirm Edit</button>    
+                        </div>
+                    </form>
+                </div>
             </div>
         </main>
         <footer>
