@@ -21,13 +21,19 @@ function Project(title) {
 const projectList = [];
 
 function createProject() {
-    if(projectList.find(project => project.title === newProjectTitle.value)) {
+    if(!localStorage.getItem('projectList')) {
+        localStorage.setItem('projectList', JSON.stringify([]));
+    } 
+    let storageProjectList = localStorage.getItem('projectList');
+    storageProjectList = JSON.parse(storageProjectList);
+    if(storageProjectList.find(project => project.title === newProjectTitle.value)) {
         newProjectTitle.setCustomValidity('Project with this title already exists');
     } else {
         newProjectTitle.setCustomValidity('');
         if(newProjectTitle.checkValidity()) {
             const title = new Project(newProjectTitle.value);
-            projectList.push(title);
+            storageProjectList.push(title);
+            localStorage.setItem('projectList', JSON.stringify(storageProjectList));;
         };
     }
 };
@@ -46,9 +52,18 @@ function Todo(title, details, dueDate, priority, done) {
     this.done = done;
 };
 
-const todoList = [];
 
 function createTask() {
+    if(!localStorage.getItem('todoList')) {
+        localStorage.setItem('todoList', JSON.stringify([]));
+    }
+    if(!localStorage.getItem('projectList')) {
+        localStorage.setItem('projectList', JSON.stringify([]));
+    } 
+    let storageTodoList = localStorage.getItem('todoList');
+    storageTodoList = JSON.parse(storageTodoList);
+    let storageProjectList = localStorage.getItem('projectList');
+    storageProjectList = JSON.parse(storageProjectList);
     let priority;
     if(newTodoLow.checked) {
         priority = 'low';
@@ -57,17 +72,19 @@ function createTask() {
     } else {
         priority = 'high';
     }
-    if(todoList.find(todo => todo.title === newTodoTitle.value)) {
+    if(storageTodoList.find(todo => todo.title === newTodoTitle.value)) {
         newTodoTitle.setCustomValidity('Todo with this title already exists');
     } else {
         newTodoTitle.setCustomValidity('');
         if(newTodoTitle.checkValidity() && newTodoDueDate.checkValidity()) {
             const task = new Todo(newTodoTitle.value, newTodoDetails.value, newTodoDueDate.value, priority, 'no');
             if(currentProject !== undefined) {
-                let project = projectList.find(data => data.title === currentProject);
+                let project = storageProjectList.find(data => data.title === currentProject);
                 project.todos.push(task);
+                localStorage.setItem('projectList', JSON.stringify(storageProjectList));
             }
-            todoList.push(task);
+            storageTodoList.push(task);
+            localStorage.setItem('todoList', JSON.stringify(storageTodoList));
         }
     }
 };
@@ -84,15 +101,21 @@ function compareDatesWeek(todoDate) {
 }
 
 function deleteTodo(deleteBtn) {
-    projectList.forEach(project => {
+    let storageProjectList = localStorage.getItem('projectList');
+    storageProjectList = JSON.parse(storageProjectList);
+    storageProjectList.forEach(project => {
         project.todos.forEach(todo => {
             if(deleteBtn.parentNode.id === todo.title) {
                 project.todos.splice(project.todos.indexOf(todo), 1);
+                localStorage.setItem('projectList', JSON.stringify(storageProjectList));
             }
         })
     });
-    let homeTodo = todoList.find(data => data.title === deleteBtn.parentNode.id);
-    todoList.splice(todoList.indexOf(homeTodo), 1);
+    let storageTodoList = localStorage.getItem('todoList');
+    storageTodoList = JSON.parse(storageTodoList);
+    let homeTodo = storageTodoList.find(data => data.title === deleteBtn.parentNode.id);
+    storageTodoList.splice(storageTodoList.indexOf(homeTodo), 1);
+    localStorage.setItem('todoList', JSON.stringify(storageTodoList));
     if(todayList) {
         let todayTodo = todayList.find(data => data.title === deleteBtn.parentNode.id)
         todayList.splice(todayList.indexOf(todayTodo), 1);
@@ -105,7 +128,7 @@ function deleteTodo(deleteBtn) {
 }
 
 
-export { projectList, createProject, removeAllChildNodes, createTask, todoList, compareDatesToday,
+export { createProject, removeAllChildNodes, createTask, compareDatesToday,
         deleteTodo, compareDatesWeek }
 
 

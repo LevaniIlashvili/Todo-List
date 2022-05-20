@@ -1,5 +1,5 @@
 "use strict";
-import { projectList, createProject, removeAllChildNodes, createTask, todoList, compareDatesToday, 
+import { createProject, removeAllChildNodes, createTask, compareDatesToday, 
         deleteTodo, compareDatesWeek } from "./index.js";
 import { format } from 'date-fns';
 import Edit from './edit.svg';
@@ -82,10 +82,18 @@ createProjectBtn.addEventListener('click', () => {
         createProject();
 });
 
+
+if(localStorage.getItem('projectList')) {
+    let storageProjectList = localStorage.getItem('projectList');
+    storageProjectList = JSON.parse(storageProjectList);
+    renderProject();
+}
 // render projects to display
 function renderProject() {
     removeAllChildNodes(displayProjectList);
-    projectList.forEach(project => {
+    let storageProjectList = localStorage.getItem('projectList');
+    storageProjectList = JSON.parse(storageProjectList);
+    storageProjectList.forEach(project => {
         const projectDiv = document.createElement('div');
         projectDiv.classList.add('project-div');
         displayProjectList.appendChild(projectDiv);
@@ -115,29 +123,34 @@ createProjectBtn.addEventListener('click', () => {
     };
 });
 
-
 // delete project
 document.addEventListener('click', e => {
     if(e.target.classList.value === 'delete-project') {
-        let project = projectList.find(project => project.title === e.target.parentNode.firstChild.id)
-        projectList.splice(projectList.indexOf(project), 1);
+        let storageProjectList = localStorage.getItem('projectList');
+        storageProjectList = JSON.parse(storageProjectList);
+        let project = storageProjectList.find(project => project.title === e.target.parentNode.firstChild.id)
+        storageProjectList.splice(storageProjectList.indexOf(project), 1);
+        localStorage.setItem('projectList', JSON.stringify(storageProjectList));
         removeAllChildNodes(displayTodoList);
         removeAllChildNodes(displayProjectList);
         renderProject();
         project.todos.forEach(todo => {
-            todoList.splice(todoList.indexOf(todo.title), 1);
+            storageTodoList.splice(storageTodoList.indexOf(todo.title), 1);
         });
     }
 });
+
 
 // display todos of project
 let currentProject;
 document.addEventListener('click', e => {
     if(e.target.classList.value === 'project-radios') {
+        let storageProjectList = localStorage.getItem('projectList');
+        storageProjectList = JSON.parse(storageProjectList);
         addTaskBtn.style.display = 'block';
         removeAllChildNodes(displayTodoList);
         currentProject = e.target.getAttribute('id');
-        let project = projectList.find(data => data.title === currentProject);
+        let project = storageProjectList.find(data => data.title === currentProject);
         renderTodos(project.todos);
         homeChecked = undefined;
         weekChecked = undefined;
@@ -150,6 +163,12 @@ document.addEventListener('click', e => {
 createTodo.addEventListener('click', (e) => {
     createTask();
 });
+
+if(localStorage.getItem('todoList')) {
+    let storageTodoList = localStorage.getItem('todoList');
+    storageTodoList = JSON.parse(storageTodoList);
+    renderTodos(storageTodoList);
+}
 
 // render todos to display
 function renderTodos(list) {
@@ -209,8 +228,10 @@ function renderTodos(list) {
 createTodo.addEventListener('click', (e) => {
     if(currentProject !== undefined) {
         if(newTodoTitle.checkValidity() && newTodoDueDate.checkValidity()) {
+            let storageProjectList = localStorage.getItem('projectList');
+            storageProjectList = JSON.parse(storageProjectList);
             todoModalBackground.style.display = 'none';
-            let project = projectList.find(data => data.title === currentProject);
+            let project = storageProjectList.find(data => data.title === currentProject);
             renderTodos(project.todos);
             newTodoTitle.value = '';
             newTodoDetails.value = '';
@@ -219,7 +240,9 @@ createTodo.addEventListener('click', (e) => {
     } else {
         if(newTodoTitle.checkValidity() && newTodoDueDate.checkValidity()) {
             todoModalBackground.style.display = 'none';
-            renderTodos(todoList);
+            let localTodoList = localStorage.getItem('todoList');
+            localTodoList = JSON.parse(localTodoList);
+            renderTodos(localTodoList);
             newTodoTitle.value = '';
             newTodoDetails.value = '';
             newTodoDueDate.value = null;
@@ -230,9 +253,11 @@ createTodo.addEventListener('click', (e) => {
 // show details
 document.addEventListener('click', e => {
     if(e.target.classList.value === 'todo-details') {
+        let storageTodoList = localStorage.getItem('todoList');
+        storageTodoList = JSON.parse(storageTodoList);
         removeAllChildNodes(todoDetailsModal);
         // find obj in todoList
-        let obj = todoList.find(data => data.title === e.target.parentNode.getAttribute('id'));
+        let obj = storageTodoList.find(data => data.title === e.target.parentNode.getAttribute('id'));
         todoDetailsModalBackground.style.display = 'block';
         // close btn
         const detailsClose = document.createElement('h1');
@@ -269,9 +294,11 @@ document.addEventListener('click', e => {
 let homeChecked = 'checked';
 // home btn
 home.addEventListener('click', () => {
+    let storageTodoList = localStorage.getItem('todoList');
+    storageTodoList = JSON.parse(storageTodoList);
     addTaskBtn.style.display = 'block';
     removeAllChildNodes(displayTodoList);
-    renderTodos(todoList);
+    renderTodos(storageTodoList);
     currentProject = undefined;
     homeChecked = 'checked';
     todayChecked = undefined;
@@ -283,7 +310,9 @@ let todayChecked;
 let todayList;
 today.addEventListener('click', () => {
     addTaskBtn.style.display = 'none';
-    todayList = todoList.filter(todo => compareDatesToday(todo.dueDate));
+    let storageTodoList = localStorage.getItem('todoList');
+    storageTodoList = JSON.parse(storageTodoList);
+    todayList = storageTodoList.filter(todo => compareDatesToday(todo.dueDate));
     removeAllChildNodes(displayTodoList);
     renderTodos(todayList);
     todayChecked = 'checked';
@@ -295,8 +324,10 @@ today.addEventListener('click', () => {
 let weekChecked;
 let weekList;
 week.addEventListener('click', () => {
+    let storageTodoList = localStorage.getItem('todoList');
+    storageTodoList = JSON.parse(storageTodoList);
     addTaskBtn.style.display = 'none';
-    weekList = todoList.filter(todo => compareDatesWeek(todo.dueDate));
+    weekList = storageTodoList.filter(todo => compareDatesWeek(todo.dueDate));
     removeAllChildNodes(displayTodoList);
     renderTodos(weekList);
     todayChecked = undefined;
@@ -308,13 +339,14 @@ week.addEventListener('click', () => {
 // edit btn
 document.addEventListener('click', e => {
     if(e.target.classList.value === 'edit-icon') {
+        let storageTodoList = localStorage.getItem('todoList');
+        storageTodoList = JSON.parse(storageTodoList);
         // display details of todo to edit modal
         editModalBackground.style.display = 'block';
-        let todo = todoList.find(data => data.title === e.target.parentNode.getAttribute('id'));
+        let todo = storageTodoList.find(data => data.title === e.target.parentNode.getAttribute('id'));
         editTodoTitle.value = todo.title;
         editTodoDetails.value = todo.details;
         editTodoDueDate.value = todo.dueDate;
-        console.log(todo.priority);
         if(todo.priority === 'low') {
             editTodoLow.checked = true;   
         } else if(todo.priority === 'medium') {
@@ -327,9 +359,14 @@ document.addEventListener('click', e => {
     };  
 });
 
+
 confirmEdit.addEventListener('click', () => {
-    if(projectList.find(data => data.title === currentProject)) {
-        let project = projectList.find(data => data.title === currentProject);
+    let storageProjectList = localStorage.getItem('projectList');
+    storageProjectList = JSON.parse(storageProjectList);
+    if(storageProjectList.find(data => data.title === currentProject)) {
+        let storageTodoList = localStorage.getItem('todoList');
+        storageTodoList = JSON.parse(storageTodoList);
+        let project = storageProjectList.find(data => data.title === currentProject);
         let projectTodo = project.todos.find(data => data.title === confirmEdit.getAttribute('id'));
         projectTodo.title = editTodoTitle.value;
         projectTodo.details = editTodoDetails.value;
@@ -341,11 +378,7 @@ confirmEdit.addEventListener('click', () => {
         } else {
             projectTodo.priority = 'high';
         }
-        editModalBackground.style.display = 'none';
-        removeAllChildNodes(displayTodoList);
-        renderTodos(project.todos);
-    } else {
-        let homeTodo = todoList.find(data => data.title === confirmEdit.getAttribute('id'));
+        let homeTodo = storageTodoList.find(data => data.title === confirmEdit.getAttribute('id'));
         homeTodo.title = editTodoTitle.value;
         homeTodo.details = editTodoDetails.value;
         homeTodo.dueDate = editTodoDueDate.value;
@@ -356,9 +389,29 @@ confirmEdit.addEventListener('click', () => {
         } else {
             homeTodo.priority = 'high';
         }
+        localStorage.setItem('todoList', JSON.stringify(storageTodoList));
+        localStorage.setItem('projectList', JSON.stringify(storageProjectList));
         editModalBackground.style.display = 'none';
         removeAllChildNodes(displayTodoList);
-        renderTodos(todoList);
+        renderTodos(project.todos);
+    } else {
+        let storageTodoList = localStorage.getItem('todoList');
+        storageTodoList = JSON.parse(storageTodoList);
+        let homeTodo = storageTodoList.find(data => data.title === confirmEdit.getAttribute('id'));
+        homeTodo.title = editTodoTitle.value;
+        homeTodo.details = editTodoDetails.value;
+        homeTodo.dueDate = editTodoDueDate.value;
+        if(editTodoLow.checked) {
+            homeTodo.priority = 'low';
+        } else if(editTodoMedium.checked) {
+            homeTodo.priority = 'medium';
+        } else {
+            homeTodo.priority = 'high';
+        }
+        localStorage.setItem('todoList', JSON.stringify(storageTodoList));
+        editModalBackground.style.display = 'none';
+        removeAllChildNodes(displayTodoList);
+        renderTodos(storageTodoList);
     }
 });
 
@@ -372,16 +425,19 @@ closeTodoEdit.addEventListener('click', () => {
 // delete btn functional
 document.addEventListener('click', e => {
     if(e.target.classList.value === 'delete-todo-icon') {
-        // project da home mushaobs ertad, problema iqmneba todayistan
         if(currentProject !== undefined && currentProject !== '') {
-            let project = projectList.find(data => data.title === currentProject);
             deleteTodo(e.target);
+            let storageProjectList = localStorage.getItem('projectList');
+            storageProjectList = JSON.parse(storageProjectList);
+            let project = storageProjectList.find(data => data.title === currentProject);
             removeAllChildNodes(displayTodoList);
             renderTodos(project.todos);
         } else if (homeChecked !== undefined && homeChecked !== ''){
             deleteTodo(e.target);
+            let storageTodoList = localStorage.getItem('todoList');
+            storageTodoList = JSON.parse(storageTodoList);
             removeAllChildNodes(displayTodoList);
-            renderTodos(todoList);
+            renderTodos(storageTodoList);
         } else if(todayChecked !== undefined && todayChecked !== '') {
             deleteTodo(e.target);
             removeAllChildNodes(displayTodoList);
@@ -397,7 +453,7 @@ document.addEventListener('click', e => {
 
 
 export {newTodoTitle, newTodoDetails, newTodoDueDate, newTodoLow, newTodoMedium, newProjectTitle, 
-        currentProject, todayList, weekList}
+        currentProject, weekList}
 
 
 
