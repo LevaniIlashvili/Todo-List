@@ -24,7 +24,7 @@
 }
 
 :root {
-    --main-color: #C89FA3;
+    --main-color: #c38d9e;
     --secondary-color: #3ba395;
     --font-color: #501f3a;
 }
@@ -60,7 +60,7 @@ header {
 
 .sidebar {
     color: var(--font-color);
-    border-right: solid 1px var(--font-color);
+    border-right: 1px solid #b9b9b9;
     font-family: latoThin;
     display: flex;
     flex-direction: column;
@@ -129,6 +129,19 @@ header {
 #week:checked + label {
     font-family: latoRegular;
     padding-left: 5px;
+}
+
+.add-project {
+    border: none;
+    color: var(--font-color);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px 10px;
+    border-radius: 3px;
+}
+
+.add-project:hover {
+    background-color: rgb(216, 212, 212);
 }
 
 /* "new project modal" */
@@ -226,6 +239,19 @@ header {
     padding-left: 5px;   
 } 
 
+.project-div {
+    width: 200px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-project {
+    cursor: pointer;
+}
+
+
 
 
 
@@ -235,7 +261,7 @@ main {
     padding: 50px;
 }
 
-.new-todo-background {
+.new-todo-background, .edit-modal-background {
     display: none;
     position: fixed;
     z-index: 1;
@@ -254,7 +280,24 @@ main {
     margin: 15vh auto; 
     width: 700px; 
     height: 430px;
-  }
+
+}
+
+.edit-modal {
+    background-color: #fefefe;
+    margin: 15vh auto;
+    width: 700px;
+    height: 370px;
+    position: relative;
+}
+
+.close-edit {
+    position: absolute;
+    right: 20px;
+    top: 0px;
+    font-family: latoRegular;
+    cursor: pointer;
+}
 
 .new-todo-header {
     font-size: 18px;
@@ -273,28 +316,28 @@ main {
     cursor: pointer;
 }
 
-.new-todo-modal form {
+.new-todo-modal form, .edit-modal form {
     padding: 20px;
     display: flex;
     flex-direction: column;
 }
 
-#new-todo-title, #new-todo-details {
+#new-todo-title, #new-todo-details, #edit-todo-title, #edit-todo-details {
     border: none;
     font-size: 20px;
     margin-bottom: 20px;
 }
 
-#new-todo-title:focus, #new-todo-details {
+#new-todo-title:focus, #new-todo-details, #edit-todo-title, #edit-todo-details {
     outline: none;
 }
 
-#new-todo-details {
+#new-todo-details, #edit-todo-details {
     resize: none;
     font-family: latoRegular;
 }
 
-.new-todo-due-container {
+.new-todo-due-container, .edit-todo-due-container {
     font-size: 20px;
     font-family: latoRegular;
     display: flex;
@@ -302,14 +345,18 @@ main {
     margin-bottom: 10px;
 }
 
-.new-todo-due-container input {
+.new-todo-due-container input, .edit-todo-due-container input {
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #3ba395;
     color: #3ba395;
 }
 
-.new-todo-priority-container {
+.new-todo-due-container input:focus, .edit-todo-due-container input:focus {
+    outline: none;
+}
+
+.new-todo-priority-container, .edit-todo-priority-container {
     display: flex;
     font-family: latoRegular;
     font-size: 20px;
@@ -318,11 +365,11 @@ main {
 }
 
 /* bellow is priority styling */
-#new-todo-low, #new-todo-medium, #new-todo-high {
+#new-todo-low, #new-todo-medium, #new-todo-high, #edit-todo-low, #edit-todo-medium, #edit-todo-high {
     display: none;
 }
 
-#new-todo-low + label {
+#new-todo-low + label, #edit-todo-low + label {
     font-size: 12px;
     color: green;
     border: solid 1px green;
@@ -331,17 +378,17 @@ main {
     cursor: pointer;
 }
 
-#new-todo-low:hover + label {
+#new-todo-low:hover + label, #edit-todo-low:hover + label {
     background-color: green;
     color: white;
 }
 
-#new-todo-low:checked + label {
+#new-todo-low:checked + label, #edit-todo-low:checked + label {
     background-color: green;
     color: white;
 }
 
-#new-todo-medium + label {
+#new-todo-medium + label, #edit-todo-medium + label {
     font-size: 12px;
     color: orange;
     border: solid 1px orange;
@@ -350,17 +397,17 @@ main {
     cursor: pointer;
 }
 
-#new-todo-medium:hover + label {
+#new-todo-medium:hover + label, #edit-todo-medium:hover + label {
     background-color: orange;
     color: white;
 }
 
-#new-todo-medium:checked + label {
+#new-todo-medium:checked + label, #edit-todo-medium:checked + label {
     background-color: orange;
     color: white;
 }
 
-#new-todo-high + label {
+#new-todo-high + label, #edit-todo-high + label {
     font-size: 12px;
     color: red;
     border: solid 1px red;
@@ -369,17 +416,17 @@ main {
     cursor: pointer;
 }
 
-#new-todo-high:hover + label {
+#new-todo-high:hover + label, #edit-todo-high:hover + label {
     background-color: red;
     color: white;
 }
 
-#new-todo-high:checked + label {
+#new-todo-high:checked + label, #edit-todo-high:checked + label {
     background-color: red;
     color: white;
 }
 
-.create-todo {
+.create-todo, .edit-todo {
     border: solid 1px var(--secondary-color);
     color: var(--secondary-color);
     padding: 5px 20px;
@@ -388,12 +435,13 @@ main {
     margin-left: auto;
 }
 
-.create-todo:hover {
+.create-todo:hover, .edit-todo:hover {
     background-color: var(--secondary-color);
     color: white;
 }
 
 .add-task {
+    display: block;
     color: var(--font-color);
     border: none;
     cursor: pointer;
@@ -406,11 +454,23 @@ main {
     background-color: rgb(216, 212, 212);
 }
 
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .todo-container {
     width: 100%;
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+.todo-container:hover {
+    box-shadow: 4px 4px 10px rgb(187, 185, 185);
+    transform: scale(1.002);
 }
 
 .todo-title {
@@ -419,24 +479,102 @@ main {
     margin-left: 10px;
 }
 
+.todo-second-div {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.todo-second-div button {
+    border: solid 1px var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-family: latoBold;
+    text-transform: uppercase;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.todo-second-div button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.todo-date {
+    font-family: latoRegular;
+    font-size: 13px;
+    color: var(--font-color);
+}
+
+.edit-icon {
+    width: 16px;
+    filter: invert(13%) sepia(13%) saturate(4795%) hue-rotate(284deg) brightness(98%) contrast(91%);
+    cursor: pointer;
+}
+
+.edit-icon:hover {
+    filter: invert(53%) sepia(69%) saturate(312%) hue-rotate(122deg) brightness(90%) contrast(100%);
+}
+
+.delete-todo-icon {
+    width: 20px;
+    filter: invert(13%) sepia(13%) saturate(4795%) hue-rotate(284deg) brightness(98%) contrast(91%);
+    cursor: pointer;
+}
+
+.delete-todo-icon:hover {
+    filter: invert(53%) sepia(69%) saturate(312%) hue-rotate(122deg) brightness(90%) contrast(100%);
+}
+
+.details-modal-background {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+}
+
+.details-modal {
+    background-color: white;
+    width: 500px;
+    height: 150px;
+    margin: 25vh auto;
+    padding: 30px;
+    font-family: latoRegular;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    position: relative;
+}
+
+.details-close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.details-modal h1 {
+    margin-bottom: 20px;
+}
+
+.details-modal p {
+    font-size: 20px;
+}
+
 footer {
     font-family: latoLight;
-    border: solid 1px var(--font-color);
+    border: 1px solid #b9b9b9;
     grid-column: 1 / -1;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.add-project {
-    border: none;
-    color: var(--font-color);
-    font-size: 18px;
-    cursor: pointer;
-    padding: 10px 10px;
-    border-radius: 3px;
-}
-
-.add-project:hover {
-    background-color: rgb(216, 212, 212);
 }

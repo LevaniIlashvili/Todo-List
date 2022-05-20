@@ -23,5 +23,8 @@
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   },
-  "main": "webpack.config.js"
+  "main": "webpack.config.js",
+  "dependencies": {
+    "date-fns": "^2.28.0"
+  }
 }
