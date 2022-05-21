@@ -123,6 +123,7 @@ createProjectBtn.addEventListener('click', () => {
     };
 });
 
+
 // delete project
 document.addEventListener('click', e => {
     if(e.target.classList.value === 'delete-project') {
@@ -135,7 +136,10 @@ document.addEventListener('click', e => {
         removeAllChildNodes(displayProjectList);
         renderProject();
         project.todos.forEach(todo => {
+            let storageTodoList = localStorage.getItem('todoList');
+            storageTodoList = JSON.parse(storageTodoList);
             storageTodoList.splice(storageTodoList.indexOf(todo.title), 1);
+            localStorage.setItem('todoList', JSON.stringify(storageTodoList));
         });
     }
 });
