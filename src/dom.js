@@ -80,6 +80,7 @@ createProjectBtn.addEventListener("click", () => {
 // render projects to display
 function renderProject() {
   removeAllChildNodes(displayProjectList);
+  removeAllChildNodes(displayTodoList);
   let storageProjectList = localStorage.getItem("projectList");
   storageProjectList = JSON.parse(storageProjectList);
   storageProjectList.forEach((project) => {
@@ -89,6 +90,7 @@ function renderProject() {
     const projectRadio = document.createElement("input");
     projectRadio.setAttribute("type", "radio");
     projectRadio.setAttribute("name", "sidebar");
+    projectRadio.checked = true;
     projectRadio.classList.add("project-radios");
     projectRadio.setAttribute("id", project.title);
     projectDiv.appendChild(projectRadio);
