@@ -77,68 +77,6 @@ createProjectBtn.addEventListener("click", () => {
   createProject();
 });
 
-// render projects to display
-function renderProject() {
-  removeAllChildNodes(displayProjectList);
-  removeAllChildNodes(displayTodoList);
-  let storageProjectList = localStorage.getItem("projectList");
-  storageProjectList = JSON.parse(storageProjectList);
-  storageProjectList.forEach((project) => {
-    const projectDiv = document.createElement("div");
-    projectDiv.classList.add("project-div");
-    displayProjectList.appendChild(projectDiv);
-    const projectRadio = document.createElement("input");
-    projectRadio.setAttribute("type", "radio");
-    projectRadio.setAttribute("name", "sidebar");
-    projectRadio.checked = true;
-    projectRadio.classList.add("project-radios");
-    projectRadio.setAttribute("id", project.title);
-    projectDiv.appendChild(projectRadio);
-    const projectLabel = document.createElement("label");
-    projectLabel.setAttribute("for", project.title);
-    projectLabel.textContent = project.title;
-    projectDiv.appendChild(projectLabel);
-    const deleteProject = document.createElement("h4");
-    deleteProject.classList.add("delete-project");
-    deleteProject.textContent = "x";
-    projectDiv.appendChild(deleteProject);
-  });
-}
-
-if (localStorage.getItem("projectList")) {
-  renderProject();
-}
-
-// render project list to display
-createProjectBtn.addEventListener("click", () => {
-  if (newProjectTitle.checkValidity()) {
-    projectModalBackground.style.display = "none";
-    newProjectTitle.value = "";
-    renderProject();
-  }
-});
-
-// delete project
-document.addEventListener("click", (e) => {
-  if (e.target.classList.value === "delete-project") {
-    let storageProjectList = localStorage.getItem("projectList");
-    storageProjectList = JSON.parse(storageProjectList);
-    const project = storageProjectList.find((projectTitle) => projectTitle.title
-    === e.target.parentNode.firstChild.id);
-    storageProjectList.splice(storageProjectList.indexOf(project), 1);
-    localStorage.setItem("projectList", JSON.stringify(storageProjectList));
-    removeAllChildNodes(displayTodoList);
-    removeAllChildNodes(displayProjectList);
-    renderProject();
-    project.todos.forEach((todo) => {
-      let storageTodoList = localStorage.getItem("todoList");
-      storageTodoList = JSON.parse(storageTodoList);
-      storageTodoList.splice(storageTodoList.indexOf(todo.title), 1);
-      localStorage.setItem("todoList", JSON.stringify(storageTodoList));
-    });
-  }
-});
-
 let currentProject;
 let weekChecked;
 let weekList;
@@ -199,6 +137,72 @@ function renderTodos(list) {
     todoSecondDiv.appendChild(todoDelete);
   });
 }
+
+// render projects to display
+function renderProject() {
+  removeAllChildNodes(displayProjectList);
+  let storageProjectList = localStorage.getItem("projectList");
+  storageProjectList = JSON.parse(storageProjectList);
+  storageProjectList.forEach((project) => {
+    const projectDiv = document.createElement("div");
+    projectDiv.classList.add("project-div");
+    displayProjectList.appendChild(projectDiv);
+    const projectRadio = document.createElement("input");
+    projectRadio.setAttribute("type", "radio");
+    projectRadio.setAttribute("name", "sidebar");
+    projectRadio.classList.add("project-radios");
+    projectRadio.setAttribute("id", project.title);
+    projectDiv.appendChild(projectRadio);
+    const projectLabel = document.createElement("label");
+    projectLabel.setAttribute("for", project.title);
+    projectLabel.textContent = project.title;
+    projectDiv.appendChild(projectLabel);
+    const deleteProject = document.createElement("h4");
+    deleteProject.classList.add("delete-project");
+    deleteProject.textContent = "x";
+    projectDiv.appendChild(deleteProject);
+  });
+}
+
+if (localStorage.getItem("projectList")) {
+  renderProject();
+}
+
+// render project list to display
+createProjectBtn.addEventListener("click", () => {
+  if (newProjectTitle.checkValidity()) {
+    projectModalBackground.style.display = "none";
+    newProjectTitle.value = "";
+    renderProject();
+  }
+});
+
+// delete project
+document.addEventListener("click", (e) => {
+  if (e.target.classList.value === "delete-project") {
+    let storageProjectList = localStorage.getItem("projectList");
+    storageProjectList = JSON.parse(storageProjectList);
+    const project = storageProjectList.find((projectTitle) => projectTitle.title
+    === e.target.parentNode.firstChild.id);
+    storageProjectList.splice(storageProjectList.indexOf(project), 1);
+    localStorage.setItem("projectList", JSON.stringify(storageProjectList));
+    removeAllChildNodes(displayTodoList);
+    removeAllChildNodes(displayProjectList);
+    renderProject();
+    project.todos.forEach((todo) => {
+      let storageTodoList = localStorage.getItem("todoList");
+      storageTodoList = JSON.parse(storageTodoList);
+      storageTodoList.splice(storageTodoList.indexOf(todo.title), 1);
+      localStorage.setItem("todoList", JSON.stringify(storageTodoList));
+    });
+    let storageTodoList = localStorage.getItem("todoList");
+    storageTodoList = JSON.parse(storageTodoList);
+    home.checked = true;
+    homeChecked = "checked";
+    currentProject = undefined;
+    renderTodos(storageTodoList);
+  }
+});
 
 // display todos of project
 document.addEventListener("click", (e) => {
