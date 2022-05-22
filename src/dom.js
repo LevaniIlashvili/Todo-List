@@ -140,7 +140,7 @@ document.addEventListener("click", (e) => {
 let currentProject;
 let weekChecked;
 let weekList;
-let homeChecked;
+let homeChecked = "checked";
 let todayChecked;
 let todayList;
 
